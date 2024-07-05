@@ -117,6 +117,20 @@ input[type='number'] {
   color: black; 
 }
 
+.header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.account-icon {
+  width: 2em; 
+  height: 2em;
+  border-radius: 50%; 
+  object-fit: cover; 
+  margin-left: auto; 
+}
+
 .btn:focus,
 .delete-btn:focus {
   outline: 0;
