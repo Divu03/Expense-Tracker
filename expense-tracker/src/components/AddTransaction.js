@@ -28,13 +28,14 @@ export const AddTransaction = () => {
         <form onSubmit={onSubmit}>
         <div className="form-control">
             <label htmlFor="text">Text</label>
-            <input type="text" value={text} onChange={(e)=>setText(e.target.value)} placeholder="Enter text..." />
+            <input type="text" id='text' value={text} onChange={(e)=>setText(e.target.value)} placeholder="Enter text..." />
         </div>
         <div className='form-control'>
-        <label>Transaction Type</label>
+        <label htmlFor='typebtn'>Transaction Type</label>
             <div className="transaction-type">
                 <button
                 type="button"
+                id='typebtn'
                 className={`btn I ${sign === 0 ? 'active' : ''}`}
                 onClick={() => setSign(0)}
                 >
@@ -42,6 +43,7 @@ export const AddTransaction = () => {
                 </button>
                 <button
                 type="button"
+                id='typebtn'
                 className={`btn E ${sign === 1 ? 'active' : ''}`}
                 onClick={() => setSign(1)}
                 >
@@ -53,7 +55,7 @@ export const AddTransaction = () => {
             <label htmlFor="amount">
                 Amount
             </label>
-            <input type="number" value={amount} onChange={(e)=>setAmount(e.target.value)} placeholder="Enter amount..." />
+            <input type="number" id='amount' value={amount} onChange={(e)=>setAmount(e.target.value)} placeholder="Enter amount..." />
         </div>
         <button className="btn">Add transaction</button>
         </form>
