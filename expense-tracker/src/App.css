@@ -100,6 +100,23 @@ input[type='number'] {
   width: 100%;
 }
 
+.I {
+  background-color: #62cb00;
+  margin: 10px 0 10px;
+}
+.E {
+  background-color: #ff1f1f;
+  margin: 10px 0 10px;
+}
+.transaction-type {
+  display: flex;
+  gap: 10px;
+}
+.btn.active {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  color: black; 
+}
+
 .btn:focus,
 .delete-btn:focus {
   outline: 0;

@@ -4,6 +4,7 @@ import { GlobalContext } from '../context/GlobalState';
 export const AddTransaction = () => {
     const [text,setText] = useState('');
     const [amount,setAmount] = useState(0);
+    const [sign,setSign] = useState(0);
 
     const {addTransaction} = useContext(GlobalContext);
 
@@ -12,8 +13,8 @@ export const AddTransaction = () => {
 
         const newTransaction= {
             id : Math.floor(Math.random() * 100000000),
-            text,
-            amount:+amount
+            text : text ? text : 'not written',
+            amount: sign === 0 ? +amount : -amount
         }
         
         addTransaction(newTransaction);
@@ -29,10 +30,28 @@ export const AddTransaction = () => {
             <label htmlFor="text">Text</label>
             <input type="text" value={text} onChange={(e)=>setText(e.target.value)} placeholder="Enter text..." />
         </div>
+        <div className='form-control'>
+        <label>Transaction Type</label>
+            <div className="transaction-type">
+                <button
+                type="button"
+                className={`btn I ${sign === 0 ? 'active' : ''}`}
+                onClick={() => setSign(0)}
+                >
+                    Income
+                </button>
+                <button
+                type="button"
+                className={`btn E ${sign === 1 ? 'active' : ''}`}
+                onClick={() => setSign(1)}
+                >
+                    Expense
+                </button>
+            </div>
+        </div>
         <div className="form-control">
             <label htmlFor="amount">
-                Amount <br />
-            (negative - expense, positive - income)
+                Amount
             </label>
             <input type="number" value={amount} onChange={(e)=>setAmount(e.target.value)} placeholder="Enter amount..." />
         </div>
