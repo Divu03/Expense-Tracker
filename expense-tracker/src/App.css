@@ -78,6 +78,8 @@ label {
 }
 
 input[type='text'],
+input[type='email'],
+input[type='password'],
 input[type='number'] {
   border: 1px solid #dedede;
   border-radius: 2px;
@@ -98,6 +100,10 @@ input[type='number'] {
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+}
+
+.sl{
+  margin-top: 30px;
 }
 
 .I {

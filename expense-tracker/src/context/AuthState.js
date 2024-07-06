@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { auth, firestore } from '../firebase/firebase';
 import AuthReducer from './AuthReducer';
+import { signInWithEmailAndPassword, signOut,createUserWithEmailAndPassword} from "firebase/auth";
 
 const initialState = {
     currentUser: null,
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (user) => {
         try {
-            const userCredential = await auth.signInWithEmailAndPassword(user.email, user.password);
+            const userCredential = await signInWithEmailAndPassword(auth,user.email, user.password);
             const userData = {
                 email: userCredential.user.email,
                 uid: userCredential.user.uid
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     const logoutUser = async () => {
         try {
-            await auth.signOut();
+            await signOut(auth);
             dispatch({
                 type: 'LOGOUT_USER'
             });
@@ -62,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 
     const signupUser = async (user) => {
         try {
-            const userCredential = await auth.createUserWithEmailAndPassword(user.email, user.password);
+            const userCredential = await createUserWithEmailAndPassword(auth,user.email, user.password);
             const userData = {
                 email: userCredential.user.email,
                 uid: userCredential.user.uid

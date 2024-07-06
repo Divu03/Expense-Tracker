@@ -1,5 +1,6 @@
 import React,{ useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthState';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Login = () => {
 
@@ -7,22 +8,28 @@ export const Login = () => {
     const [password,setPassword] = useState('');
 
     const {loginUser} = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    const onSubmit = e =>{
+    const onSubmit = async (e) =>{
         e.preventDefault();
 
-        const userLoggedin = {
+        const user = {
             email,
             password
         }
 
-        loginUser(userLoggedin)
+        try {
+            await loginUser(user);
+            navigate('/'); // Navigate to home on successful login
+        } catch (error) {
+            console.error("Error logging in", error);
+        }
     }
 
   return (
-    <div>
+    <div className='ls'>
         <h1>
-            Add new transaction
+            Login
         </h1>
         <form onSubmit={onSubmit}>
             <div className="form-control">
@@ -33,8 +40,11 @@ export const Login = () => {
                 <label htmlFor="password">Text</label>
                 <input type="password" id='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password" />
             </div>
-            <button className="btn">Add transaction</button>
+            <button className="btn sl">Login</button>
         </form>
+        <nav>
+            <p>Not a user <Link to="/signup" className="nav-item">signup</Link> </p>
+        </nav>
     </div>
   )
 }
