@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthState";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import './App.css';
+import { GlobalProvider } from "./context/GlobalState";
 
 function App() {
   return (
@@ -30,12 +31,12 @@ function App() {
 }
 
 const Home = () => (
-  <>
+  <GlobalProvider>
     <Balance />
     <IncomeExpenses />
     <AddTransaction />
     <TransactionList />
-  </>
+  </GlobalProvider>
 );
 
 export default App;
