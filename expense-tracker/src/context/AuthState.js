@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect, useContext } from "react";
 import { auth, firestore } from '../firebase/firebase';
 import AuthReducer from './AuthReducer';
 import { signInWithEmailAndPassword, signOut,createUserWithEmailAndPassword} from "firebase/auth";
@@ -6,6 +6,10 @@ import { signInWithEmailAndPassword, signOut,createUserWithEmailAndPassword} fro
 const initialState = {
     currentUser: null,
     loading:true
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
 export const AuthContext = createContext(initialState);

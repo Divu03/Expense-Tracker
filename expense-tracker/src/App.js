@@ -9,9 +9,9 @@ import { Login } from "./components/Login";
 import { Signup } from "./components/Signup";
 import { AuthProvider } from "./context/AuthState";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { GlobalProvider } from "./context/GlobalState";
 
 import './App.css';
-import { GlobalProvider } from "./context/GlobalState";
 
 function App() {
   return (
