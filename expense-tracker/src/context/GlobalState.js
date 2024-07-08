@@ -18,7 +18,6 @@ export const GlobalProvider = ({ children }) => {
     const currentUser = auth.currentUser;
 
     const addTransaction = async (transaction) => {
-        const currentUser = auth.currentUser;
         if (!currentUser) return;
 
         try {
@@ -46,12 +45,10 @@ export const GlobalProvider = ({ children }) => {
     };
 
     const deleteTransaction = async (id) => {
-        const currentUser = auth.currentUser;
         if (!currentUser) return;
 
         try {
             const transactionRef = doc(firestore, 'users', String(currentUser.uid), 'transactions', String(id));
-            console.log('Deleting document at:', transactionRef.path); // Log the document path
 
             await deleteDoc(transactionRef);
 

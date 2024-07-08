@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useEffect, useContext } from "react";
 import { auth, firestore } from '../firebase/firebase';
 import AuthReducer from './AuthReducer';
 import { signInWithEmailAndPassword, signOut,createUserWithEmailAndPassword} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const initialState = {
     currentUser: null,
@@ -67,17 +68,22 @@ export const AuthProvider = ({ children }) => {
 
     const signupUser = async (user) => {
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth,user.email, user.password);
+            const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
             const userData = {
                 email: userCredential.user.email,
                 uid: userCredential.user.uid
             };
-            await firestore.collection('users').doc(userData.uid).set({
+    
+            const currentDate = new Date();
+            const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/${currentDate.getFullYear()}`;
+    
+            await setDoc(doc(firestore, 'users', userData.uid), {
                 email: userData.email,
-                name:user.name,
-                date:user.date,
-                mobile:user.mobile
+                name: user.name,
+                date: formattedDate,
+                mobile: user.mobile
             });
+    
             dispatch({
                 type: 'SIGNUP_USER',
                 payload: userData
