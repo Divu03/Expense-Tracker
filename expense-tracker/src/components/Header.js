@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export const Header = () => {
-
+export const Header = ({ onLogout, onViewHistory }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const logoUrl = "./logo512.png";
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div className='header'>
       <h2>Expense Tracker</h2>
-      <img src={logoUrl} alt="Logo" className="account-icon" />{/*here there should be a menu that show option of logout and also history and other, history sholud be saved in firestore and last five should be shown at start and other can be accesed through onClick here */}
+      <img src={logoUrl} alt="Logo" className="account-icon" onClick={toggleMenu} />
+      {menuOpen && (
+        <div className="menu">
+          <button onClick={onLogout}>Logout</button>
+          <button onClick={onViewHistory}>View History</button>
+          {/* Add more menu options here if needed */}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};

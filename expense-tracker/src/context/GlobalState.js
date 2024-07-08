@@ -1,7 +1,7 @@
 import React, { createContext, useReducer} from "react";
 import AppReducer from './AppReducer';
 import { auth, firestore } from '../firebase/firebase';
-import { collection, addDoc, doc,deleteDoc } from "firebase/firestore";
+import { collection, addDoc, doc, deleteDoc, getDocs, query, orderBy, limit } from "firebase/firestore";
 
 
 const initialState = {
@@ -60,12 +60,64 @@ export const GlobalProvider = ({ children }) => {
             console.error("Error deleting transaction: ", error);
         }
     };
+    
+    const fetchLastFiveTransactions = async () => {
+        if (!currentUser) return;
+
+        try {
+            const q = query(
+                collection(firestore, 'users', currentUser.uid, 'transactions'),
+                orderBy('timestamp', 'desc'),
+                limit(5)
+            );
+
+            const querySnapshot = await getDocs(q);
+            const transactions = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            dispatch({
+                type: 'SET_TRANSACTIONS',
+                payload: transactions
+            });
+        } catch (error) {
+            console.error("Error fetching last five transactions: ", error);
+        }
+    };
+
+    const fetchAllTransactions = async () => {
+        if (!currentUser) return;
+
+        try {
+            const q = query(
+                collection(firestore, 'users', currentUser.uid, 'transactions'),
+                orderBy('timestamp', 'desc')
+            );
+
+            const querySnapshot = await getDocs(q);
+            const transactions = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            dispatch({
+                type: 'SET_ALL_TRANSACTIONS',
+                payload: transactions
+            });
+            
+        } catch (error) {
+            console.error("Error fetching all transactions: ", error);
+        }
+    };
 
     return (
         <GlobalContext.Provider value={{
             transactions: state.transactions,
             addTransaction,
-            deleteTransaction
+            deleteTransaction,
+            fetchLastFiveTransactions,
+            fetchAllTransactions
         }}>
             {children}
         </GlobalContext.Provider>

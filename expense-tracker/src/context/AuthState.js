@@ -1,19 +1,19 @@
 import React, { createContext, useReducer, useEffect, useContext } from "react";
 import { auth, firestore } from '../firebase/firebase';
 import AuthReducer from './AuthReducer';
-import { signInWithEmailAndPassword, signOut,createUserWithEmailAndPassword} from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 const initialState = {
     currentUser: null,
-    loading:true
-};
-
-export const useAuth = () => {
-  return useContext(AuthContext);
+    loading: true
 };
 
 export const AuthContext = createContext(initialState);
+
+export const useAuth = () => {
+    return useContext(AuthContext);
+};
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (user) => {
         try {
-            const userCredential = await signInWithEmailAndPassword(auth,user.email, user.password);
+            const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password);
             const userData = {
                 email: userCredential.user.email,
                 uid: userCredential.user.uid
@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
             });
         } catch (error) {
             console.error("Error logging in", error);
+            // Handle error state or display error message
         }
     };
 
@@ -63,6 +64,7 @@ export const AuthProvider = ({ children }) => {
             });
         } catch (error) {
             console.error("Error logging out", error);
+            // Handle error state or display error message
         }
     };
 
@@ -90,6 +92,7 @@ export const AuthProvider = ({ children }) => {
             });
         } catch (error) {
             console.error("Error signing up", error);
+            // Handle error state or display error message
         }
     };
 
