@@ -80,10 +80,12 @@ export const GlobalProvider = ({ children }) => {
             );
 
             const querySnapshot = await getDocs(q);
+            console.log(querySnapshot);
             const transactions = querySnapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
+            console.log(transactions);
 
             dispatch({
                 type: 'SET_TRANSACTIONS',

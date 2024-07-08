@@ -55,12 +55,12 @@ const AppContent = () => {
 };
 
 const Home = () => (
-  <>
+  <GlobalProvider>
     <Balance />
     <IncomeExpenses />
     <AddTransaction />
     <TransactionList />
-  </>
+  </GlobalProvider>
 );
 
 export default App;
