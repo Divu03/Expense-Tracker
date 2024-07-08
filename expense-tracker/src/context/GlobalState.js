@@ -1,4 +1,4 @@
-import React, { createContext, useReducer} from "react";
+import React, { createContext, useReducer,useContext} from "react";
 import AppReducer from './AppReducer';
 import { auth, firestore } from '../firebase/firebase';
 import { collection, addDoc, doc, deleteDoc, getDocs, query, orderBy, limit } from "firebase/firestore";
@@ -11,12 +11,17 @@ const initialState = {
 // Global context
 export const GlobalContext = createContext(initialState);
 
+export const useGlobal = () => {
+    return useContext(GlobalContext);
+};
+
 // Global provider
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initialState);
 
     const currentUser = auth.currentUser;
 
+    //Add Transaction
     const addTransaction = async (transaction) => {
         if (!currentUser) return;
 
@@ -44,6 +49,7 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    // Delete Transaction
     const deleteTransaction = async (id) => {
         if (!currentUser) return;
 
@@ -61,9 +67,11 @@ export const GlobalProvider = ({ children }) => {
         }
     };
     
+    // Fetch 5
     const fetchLastFiveTransactions = async () => {
         if (!currentUser) return;
 
+        console.log("reached");
         try {
             const q = query(
                 collection(firestore, 'users', currentUser.uid, 'transactions'),
@@ -86,6 +94,7 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    //Fetch All
     const fetchAllTransactions = async () => {
         if (!currentUser) return;
 

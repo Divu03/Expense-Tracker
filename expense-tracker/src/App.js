@@ -17,9 +17,11 @@ import './App.css';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <GlobalProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </GlobalProvider>
     </AuthProvider>
   );
 }
@@ -53,12 +55,12 @@ const AppContent = () => {
 };
 
 const Home = () => (
-  <GlobalProvider>
+  <>
     <Balance />
     <IncomeExpenses />
     <AddTransaction />
     <TransactionList />
-  </GlobalProvider>
+  </>
 );
 
 export default App;
