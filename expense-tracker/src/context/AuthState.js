@@ -83,7 +83,9 @@ export const AuthProvider = ({ children }) => {
                 email: userData.email,
                 name: user.name,
                 date: formattedDate,
-                mobile: user.mobile
+                mobile: user.mobile,
+                income: 0,
+                expense: 0
             });
     
             dispatch({

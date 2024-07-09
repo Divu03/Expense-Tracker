@@ -7,16 +7,16 @@ export const History = () => {
     console.log("1");
     const [viewMore, setViewMore] = useState(false);
 
-  useEffect(() => {
-    fetchLastFiveTransactions();
-    console.log("2");
-  });
-  console.log("3");
+  // useEffect(() => {
+  //   fetchLastFiveTransactions();
+  //   console.log("2");
+  // },[]);
+  // console.log("3");
 
-  const handleViewMore = () => {
-    fetchAllTransactions();
-    setViewMore(true);
-  };
+  // const handleViewMore = () => {
+  //   fetchAllTransactions();
+  //   setViewMore(true);
+  // };
 
   return (
     <div>
@@ -26,7 +26,7 @@ export const History = () => {
           <Transaction key={transaction.id} transaction={transaction} />
         ))}
       </ul>
-      {!viewMore && <button onClick={handleViewMore}>View More</button>}
+      {/* {!viewMore && <button onClick={handleViewMore}>View More</button>} */}
     </div>
   );
 };
