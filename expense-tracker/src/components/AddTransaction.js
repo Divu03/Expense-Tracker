@@ -58,7 +58,7 @@ export const AddTransaction = () => {
                 </div>
                 <button className="btn">Add transaction</button>
             </form>
-            <button className="btn" onClick={saveChanges}>Save Changes</button>
+            {/* <button className="btn" onClick={saveChanges}>Save Changes</button> */}
         </div>
     );
 };

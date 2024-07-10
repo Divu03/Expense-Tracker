@@ -66,6 +66,7 @@ export const GlobalProvider = ({ children }) => {
                 type: 'DELETE_TRANSACTION',
                 payload: id
             });
+            console.log("deleted the record", String(currentUser.uid),String(id),String(amount));
         } catch (error) {
             console.error("Error deleting transaction: ", error);
         }
