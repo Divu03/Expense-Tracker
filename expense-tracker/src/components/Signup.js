@@ -47,7 +47,10 @@ export const Signup = () => {
                     <input type="email" id='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
                 </div>
                 <div className="form-control">
-                    <label htmlFor="password">Password</label>
+                    <div className="label-container">
+                        <label htmlFor="password">Password</label>
+                        <p className='warning'>(min 8 characters)</p>
+                    </div>
                     <input type="password" id='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                 </div>
                 <button className="btn sl">Signup</button>
