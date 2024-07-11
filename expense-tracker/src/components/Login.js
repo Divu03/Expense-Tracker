@@ -6,7 +6,6 @@ export const Login = () => {
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-
     const {loginUser} = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ export const Login = () => {
 
         try {
             await loginUser(user);
-            navigate('/'); // Navigate to home on successful login
+            navigate('/');
         } catch (error) {
             console.error("Error logging in", error);
         }
@@ -47,7 +46,7 @@ export const Login = () => {
                 </div>
                 <input type="password" id='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password" />
             </div>
-            <button className="btn sl">Login</button>
+            <button className="btn sl" disabled={password.length < 8}>Login</button>
         </form>
         <div className='flex-container'>
             <nav>

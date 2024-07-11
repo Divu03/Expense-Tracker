@@ -53,7 +53,7 @@ export const Signup = () => {
                     </div>
                     <input type="password" id='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                 </div>
-                <button className="btn sl">Signup</button>
+                <button className="btn sl" disabled={password.length < 8}>Signup</button>
             </form>
             <nav>
                 <p>Already a user <Link to="/login" className="nav-item">login</Link> </p>

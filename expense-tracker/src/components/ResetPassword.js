@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthState';
-import { useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 export const ResetPassword = () => {
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ export const ResetPassword = () => {
       {message && <p>{message}</p>}
       <nav>
         <p>
-          Remembered your password? <a href='/login'>Login</a>
+          Remembered your password? <Link to="/login" className="nav-item">Login</Link>
         </p>
       </nav>
     </div>
