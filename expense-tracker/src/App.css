@@ -183,8 +183,7 @@ input[type='number'] {
   position: relative;
   padding: 10px;
   border-radius: 10px;
-  margin: 10px 0;
-  margin: 0px 10px;
+  margin: 10px 10px;
 }
 
 .list li.plus {
