@@ -16,14 +16,7 @@ import { logPageView } from './analytics';
 import './App.css';
 
 function App() {
-
-  const location = useLocation();
-
-  useEffect(() => {
-    logPageView();
-  }, [location]);
-
-
+  
   return (
     <AuthProvider>
       <GlobalProvider>
@@ -38,6 +31,11 @@ function App() {
 const AppContent = () => {
   const { logoutUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    logPageView();
+  }, [location]);
 
   const handleLogout = () => {
     logoutUser();
