@@ -219,3 +219,20 @@ input[type='number'] {
     width: 300px;
   }
 }
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.flex-container nav p {
+  margin: 0;
+}
+
+.flex-container .nav-item {
+  color: #007bff;
+  text-decoration: none;
+  margin-left: 5px;
+}

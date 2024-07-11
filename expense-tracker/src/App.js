@@ -12,6 +12,7 @@ import { AuthProvider, useAuth } from "./context/AuthState";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { GlobalProvider } from "./context/GlobalState";
 import { logPageView } from './analytics';
+import { ResetPassword } from './components/ResetPassword';
 
 import './App.css';
 
@@ -54,6 +55,7 @@ const AppContent = () => {
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/history" element={<GlobalProvider><ProtectedRoute><History /></ProtectedRoute></GlobalProvider>} />
         </Routes>
       </div>

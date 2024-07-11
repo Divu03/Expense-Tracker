@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useEffect, useContext } from "react";
 import { auth, firestore } from '../firebase/firebase';
 import AuthReducer from './AuthReducer';
-import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 const initialState = {
@@ -94,9 +94,20 @@ export const AuthProvider = ({ children }) => {
             });
         } catch (error) {
             console.error("Error signing up", error);
-            // Handle error state or display error message
+            alert("Signup failed please retry");
         }
     };
+
+    //Reset password
+    const sendResetEmail = async (email) => {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          alert("Password reset email sent!");
+        } catch (error) {
+          console.error("Error sending password reset email", error);
+          alert("Error sending password reset email. Please check the email address and try again.");
+        }
+      };
 
     return (
         <AuthContext.Provider value={{
@@ -104,7 +115,8 @@ export const AuthProvider = ({ children }) => {
             loading: state.loading,
             loginUser,
             logoutUser,
-            signupUser
+            signupUser,
+            sendResetEmail
         }}>
             {children}
         </AuthContext.Provider>

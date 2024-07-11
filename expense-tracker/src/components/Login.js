@@ -26,6 +26,10 @@ export const Login = () => {
         }
     }
 
+    const handleForgotPassword = () => {
+        navigate('/reset-password');
+    };
+
   return (
     <div className='ls'>
         <h1>
@@ -45,9 +49,12 @@ export const Login = () => {
             </div>
             <button className="btn sl">Login</button>
         </form>
-        <nav>
-            <p>Not a user <Link to="/signup" className="nav-item">signup</Link> </p>
-        </nav>
+        <div className='flex-container'>
+            <nav>
+                <p>Not a user <Link to="/signup" className="nav-item">signup</Link> </p>
+            </nav>
+            <button className='btn E FP' onClick={handleForgotPassword}>Forgot Password?</button>
+        </div>
     </div>
   )
 }
