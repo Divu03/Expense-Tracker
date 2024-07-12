@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext,useGlobal } from '../context/GlobalState';
 import { Transaction } from './Transaction';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const History = () => {
     const { fetchLastFiveTransactions, fetchAllTransactions, transactions } = useContext(GlobalContext);
     console.log("1");
     const [viewMore, setViewMore] = useState(false);
+    const navigate = useNavigate();
 
   // useEffect(() => {
   //   fetchLastFiveTransactions();
@@ -27,6 +29,10 @@ export const History = () => {
         ))}
       </ul>
       {/* {!viewMore && <button onClick={handleViewMore}>View More</button>} */}
+      <nav>
+        <Link to={"/"} className='nav-item'>Home</Link>
+      </nav>
+
     </div>
   );
 };

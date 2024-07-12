@@ -8,15 +8,24 @@ export const Header = ({ onLogout, onViewHistory }) => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleLogout = () => {
+    onLogout();
+    toggleMenu();
+  };
+
+  const handleViewHistory = () => {
+    onViewHistory();
+    toggleMenu();
+  };
+
   return (
     <div className='header'>
       <h2>Expense Tracker</h2>
       <img src={logoUrl} alt="Logo" className="account-icon" onClick={toggleMenu} />
       {menuOpen && (
         <div className="menu">
-          <button onClick={onLogout}>Logout</button>
-          <button onClick={onViewHistory}>View History</button>
-          {/* Add more menu options here if needed */}
+          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleViewHistory}>View History</button>
         </div>
       )}
     </div>
