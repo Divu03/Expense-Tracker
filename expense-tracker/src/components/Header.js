@@ -1,33 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-export const Header = ({ onLogout, onViewHistory }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const logoUrl = "./logo512.png";
+export const Header = () => {
+    const navigate = useNavigate(); // Initialize useNavigate
+    const [menuOpen, setMenuOpen] = useState(false);
+    const logoUrl = "./logo512.png";
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
-  const handleLogout = () => {
-    onLogout();
-    toggleMenu();
-  };
+    const handleUserClick = () => {
+        navigate('/user'); // Redirect to User.js
+        toggleMenu();
+    };
 
-  const handleViewHistory = () => {
-    onViewHistory();
-    toggleMenu();
-  };
-
-  return (
-    <div className='header'>
-      <h2>Expense Tracker</h2>
-      <img src={logoUrl} alt="Logo" className="account-icon" onClick={toggleMenu} />
-      {menuOpen && (
-        <div className="menu">
-          <button onClick={handleLogout}>Logout</button>
-          <button onClick={handleViewHistory}>View History</button>
+    return (
+        <div className='header'>
+            <h2>Expense Tracker</h2>
+            <img src={logoUrl} alt="Logo" className="account-icon" onClick={handleUserClick} />
         </div>
-      )}
-    </div>
-  );
+    );
 };

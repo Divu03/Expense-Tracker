@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { GlobalProvider } from "./context/GlobalState";
 import { logPageView } from './analytics';
 import { ResetPassword } from './components/ResetPassword';
+import User from './components/User'; // Import User component
 
 import './App.css';
 
@@ -57,6 +58,7 @@ const AppContent = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/history" element={<GlobalProvider><ProtectedRoute><History /></ProtectedRoute></GlobalProvider>} />
+          <Route path="/user" element={<ProtectedRoute><User onLogout={handleLogout} onViewHistory={handleViewHistory} /></ProtectedRoute>} /> {/* Add User route */}
         </Routes>
       </div>
     </>
@@ -73,3 +75,4 @@ const Home = () => (
 );
 
 export default App;
+
