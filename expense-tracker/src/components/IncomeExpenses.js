@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export const IncomeExpenses = () => {
-    const { income,expense } = useContext(GlobalContext);
+    const { income,expense,saveChanges } = useContext(GlobalContext);
+    saveChanges();
 
     return (
         <div className="inc-exp-container">

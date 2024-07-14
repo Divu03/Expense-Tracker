@@ -61,7 +61,6 @@ export const GlobalProvider = ({ children }) => {
         }catch(error){
             console.error("Error while adding transaction to firestore",error);
         }
-        saveChanges();
     };
 
     // Delete Transaction
@@ -82,7 +81,6 @@ export const GlobalProvider = ({ children }) => {
         } catch (error) {
             console.error("Error deleting transaction: ", error);
         }
-        saveChanges();
     };
 
     // Save Changes to Server
@@ -118,6 +116,7 @@ export const GlobalProvider = ({ children }) => {
             type: 'UPDATE_BALANCE',
             payload: { income: incomeLocal, expense: expenseLocal }
         });
+        console.log(state.income,state.expense)
     };
 
     // Fetch initial data
@@ -171,60 +170,59 @@ export const GlobalProvider = ({ children }) => {
         calculateIncomeExpense();
     }, [state.transactions]);
 
-        // Fetch 5
-        const fetchLastFiveTransactions = async () => {
-            if (!currentUser) return;
-    
+    // Fetch 5
+    const fetchLastFiveTransactions = async () => {
+        if (!currentUser) return;
             console.log("reached");
-            try {
-                const q = query(
-                    collection(firestore, 'users', currentUser.uid, 'transactions'),
-                    orderBy('timestamp', 'desc'),
-                    limit(5)
-                );
+        try {
+            const q = query(
+                collection(firestore, 'users', currentUser.uid, 'transactions'),
+                orderBy('timestamp', 'desc'),
+                limit(5)
+            );
+
+            const querySnapshot = await getDocs(q);
+            console.log(querySnapshot);
+            const transactions = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            console.log(transactions);
+
+            dispatch({
+                type: 'SET_TRANSACTIONS',
+                payload: transactions
+            });
+        } catch (error) {
+            console.error("Error fetching last five transactions: ", error);
+        }
+    };
     
-                const querySnapshot = await getDocs(q);
-                console.log(querySnapshot);
-                const transactions = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                console.log(transactions);
-    
-                dispatch({
-                    type: 'SET_TRANSACTIONS',
-                    payload: transactions
-                });
-            } catch (error) {
-                console.error("Error fetching last five transactions: ", error);
-            }
-        };
-    
-        //Fetch All
-        const fetchAllTransactions = async () => {
-            if (!currentUser) return;
-    
-            try {
-                const q = query(
-                    collection(firestore, 'users', currentUser.uid, 'transactions'),
-                    orderBy('timestamp', 'desc')
-                );
-    
-                const querySnapshot = await getDocs(q);
-                const transactions = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-    
-                dispatch({
-                    type: 'SET_ALL_TRANSACTIONS',
-                    payload: transactions
-                });
-                
-            } catch (error) {
-                console.error("Error fetching all transactions: ", error);
-            }
-        };
+    //Fetch All
+    const fetchAllTransactions = async () => {
+        if (!currentUser) return;
+
+        try {
+            const q = query(
+                collection(firestore, 'users', currentUser.uid, 'transactions'),
+                orderBy('timestamp', 'desc')
+            );
+
+            const querySnapshot = await getDocs(q);
+            const transactions = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            dispatch({
+                type: 'SET_ALL_TRANSACTIONS',
+                payload: transactions
+            });
+            
+        } catch (error) {
+            console.error("Error fetching all transactions: ", error);
+        }
+    };
 
     return (
         <GlobalContext.Provider value={{
