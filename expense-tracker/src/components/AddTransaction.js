@@ -6,7 +6,7 @@ export const AddTransaction = () => {
     const [amount, setAmount] = useState(0);
     const [sign, setSign] = useState(0);
 
-    const { addTransaction, saveChanges } = useContext(GlobalContext);
+    const { addTransaction } = useContext(GlobalContext);
 
     const onSubmit = e => {
         e.preventDefault();

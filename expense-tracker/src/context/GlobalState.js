@@ -7,6 +7,16 @@ const initialState = {
     transactions: [],
     income: 0,
     expense: 0,
+    email: '',
+    name: '',
+    mobile: 0,
+    balance: 0
+};
+
+export const AuthContext = createContext(initialState);
+
+export const useAuth = () => {
+    return useContext(AuthContext);
 };
 
 // Global context
@@ -47,10 +57,11 @@ export const GlobalProvider = ({ children }) => {
                 type: 'ADD_TRANSACTION',
                 payload: newTransaction
             });
+
         }catch(error){
             console.error("Error while adding transaction to firestore",error);
         }
-        updateBalance(transaction.amount, transaction.amount > 0 ? 'income' : 'expense');
+        saveChanges();
     };
 
     // Delete Transaction
@@ -66,12 +77,12 @@ export const GlobalProvider = ({ children }) => {
                 type: 'DELETE_TRANSACTION',
                 payload: id
             });
+
             console.log("deleted the record", String(currentUser.uid),String(id),String(amount));
         } catch (error) {
             console.error("Error deleting transaction: ", error);
         }
-
-        updateBalance(-amount, amount > 0 ? 'income' : 'expense');
+        saveChanges();
     };
 
     // Save Changes to Server
@@ -85,29 +96,27 @@ export const GlobalProvider = ({ children }) => {
                 expense: state.expense
             });
 
-            for (let transaction of state.transactions) {
-                const transactionRef = doc(firestore, 'users', currentUser.uid, 'transactions', transaction.id);
-                await setDoc(transactionRef, transaction);
-            }
         } catch (error) {
             console.error("Error saving changes: ", error);
         }
     };
 
-    // Update Balance, Income, Expense
-    const updateBalance = (amount, type) => {
-        let newIncome = state.income;
-        let newExpense = state.expense;
-
-        if (type === 'income') {
-            newIncome += amount;
-        } else {
-            newExpense += Math.abs(amount);
-        }
-
+    const calculateIncomeExpense = () => {
+        const amounts = state.transactions.map(transaction => transaction.amount);
+    
+        const incomeLocal = amounts
+            .filter(item => item > 0)
+            .reduce((acc, item) => (acc += item), 0)
+            .toFixed(2);
+    
+        const expenseLocal = (
+            amounts.filter(item => item < 0)
+            .reduce((acc, item) => (acc += item), 0) * -1)
+            .toFixed(2);
+    
         dispatch({
             type: 'UPDATE_BALANCE',
-            payload: { income: newIncome, expense: newExpense }
+            payload: { income: incomeLocal, expense: expenseLocal }
         });
     };
 
@@ -117,19 +126,22 @@ export const GlobalProvider = ({ children }) => {
             if (!currentUser) return;
 
             try {
-                // const userRef = doc(firestore, 'users', currentUser.uid);
-                // const userSnap = await getDoc(userRef);
-                // const userData = userSnap.data();
+                const userRef = doc(firestore, 'users', currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                const userData = userSnap.data();
 
-                // console.log(userData);
+                console.log(userData);
 
-                // dispatch({
-                //     type: 'SET_INITIAL_DATA',
-                //     payload: {
-                //         income: userData.income,
-                //         expense: userData.expense,
-                //     }
-                // });
+                dispatch({
+                    type: 'SET_INITIAL_DATA',
+                    payload: {
+                        income: userData.income,
+                        expense: userData.expense,
+                        email:userData.email,
+                        name:userData.name,
+                        mobile:userData.mobile
+                    }
+                });
 
                 const q = query(
                     collection(firestore, 'users', currentUser.uid, 'transactions'),
@@ -153,6 +165,11 @@ export const GlobalProvider = ({ children }) => {
 
         fetchInitialData();
     }, [currentUser]);
+
+    // calculating income and expense
+    useEffect(() => {
+        calculateIncomeExpense();
+    }, [state.transactions]);
 
         // Fetch 5
         const fetchLastFiveTransactions = async () => {
@@ -215,6 +232,9 @@ export const GlobalProvider = ({ children }) => {
             balance: state.balance,
             income: state.income,
             expense: state.expense,
+            name: state.name,
+            mobile: state.mobile,
+            email: state.email,
             addTransaction,
             deleteTransaction,
             saveChanges,
