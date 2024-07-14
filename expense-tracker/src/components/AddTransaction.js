@@ -21,7 +21,7 @@ export const AddTransaction = () => {
 
     return (
         <div>
-            <h3>
+            <h3 className='home-data'>
                 Add new transaction
             </h3>
             <form onSubmit={onSubmit}>

@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { GlobalProvider } from "./context/GlobalState";
 import { logPageView } from './analytics';
 import { ResetPassword } from './components/ResetPassword';
-import User from './components/User'; // Import User component
+import {User} from './components/User'; 
 
 import './App.css';
 

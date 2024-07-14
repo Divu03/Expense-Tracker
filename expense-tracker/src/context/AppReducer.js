@@ -27,20 +27,25 @@ export default (state, action) => {
         //         expense: state.expense + action.payload
         //     };
         case 'SET_INITIAL_DATA':
+            console.log("Setting initial data:", action.payload);
             return {
                 ...state,
-                ...action.payload
+                income: action.payload.income,
+                expense: action.payload.expense,
+                email: action.payload.email,
+                name: action.payload.name,
+                mobile: action.payload.mobile
             };
         case 'SET_TRANSACTIONS':
             return {
                 ...state,
                 transactions: action.payload
             };
-        case 'SET_ALL_TRANSACTIONS':
-            return {
-                ...state,
-                transactions: action.payload
-            };
+        // case 'SET_ALL_TRANSACTIONS':
+        //     return {
+        //         ...state,
+        //         transactions: action.payload
+        //    };
         case 'UPDATE_BALANCE':
             return {
                 ...state,

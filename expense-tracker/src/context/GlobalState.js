@@ -119,34 +119,42 @@ export const GlobalProvider = ({ children }) => {
         console.log(state.income,state.expense)
     };
 
-    // Fetch initial data
+    // fetch intial user data
+    const fetchUserInitialData = async (currentUser) => {
+        try {
+            const userRef = doc(firestore, 'users', currentUser.uid);
+            const userSnap = await getDoc(userRef);
+            const userData = userSnap.data();
+
+            console.log("User data fetched:", userData);
+
+            dispatch({
+                type: 'SET_INITIAL_DATA',
+                payload: {
+                    income: userData.income,
+                    expense: userData.expense,
+                    email:userData.email,
+                    name:userData.name,
+                    mobile:userData.mobile
+                }
+            });
+
+
+        } catch (error) {
+            console.error("Error fetching initial data: ", error);
+        }
+    }
+
+    // Fetch initial tansaction data
     useEffect(() => {
         const fetchInitialData = async () => {
             if (!currentUser) return;
 
             try {
-                const userRef = doc(firestore, 'users', currentUser.uid);
-                const userSnap = await getDoc(userRef);
-                const userData = userSnap.data();
-
-                console.log(userData);
-
-                dispatch({
-                    type: 'SET_INITIAL_DATA',
-                    payload: {
-                        income: userData.income,
-                        expense: userData.expense,
-                        email:userData.email,
-                        name:userData.name,
-                        mobile:userData.mobile
-                    }
-                });
-
                 const q = query(
                     collection(firestore, 'users', currentUser.uid, 'transactions'),
                     orderBy('timestamp', 'desc')
                 );
-
                 const querySnapshot = await getDocs(q);
                 const transactions = querySnapshot.docs.map(doc => ({
                     id: doc.id,
@@ -162,67 +170,72 @@ export const GlobalProvider = ({ children }) => {
             }
         };
 
-        fetchInitialData();
-    }, [currentUser]);
+        if (currentUser) {
+            fetchInitialData();
+        }
+        console.log(state.name,state.email,state.mobile);
+    }, []);
 
     // calculating income and expense
     useEffect(() => {
-        calculateIncomeExpense();
+        if (state.transactions.length > 0) {
+            calculateIncomeExpense();
+        }
     }, [state.transactions]);
 
-    // Fetch 5
-    const fetchLastFiveTransactions = async () => {
-        if (!currentUser) return;
-            console.log("reached");
-        try {
-            const q = query(
-                collection(firestore, 'users', currentUser.uid, 'transactions'),
-                orderBy('timestamp', 'desc'),
-                limit(5)
-            );
+    // // Fetch 5
+    // const fetchLastFiveTransactions = async () => {
+    //     if (!currentUser) return;
+    //         console.log("reached");
+    //     try {
+    //         const q = query(
+    //             collection(firestore, 'users', currentUser.uid, 'transactions'),
+    //             orderBy('timestamp', 'desc'),
+    //             limit(5)
+    //         );
 
-            const querySnapshot = await getDocs(q);
-            console.log(querySnapshot);
-            const transactions = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            console.log(transactions);
+    //         const querySnapshot = await getDocs(q);
+    //         console.log(querySnapshot);
+    //         const transactions = querySnapshot.docs.map(doc => ({
+    //             id: doc.id,
+    //             ...doc.data()
+    //         }));
+    //         console.log(transactions);
 
-            dispatch({
-                type: 'SET_TRANSACTIONS',
-                payload: transactions
-            });
-        } catch (error) {
-            console.error("Error fetching last five transactions: ", error);
-        }
-    };
+    //         dispatch({
+    //             type: 'SET_TRANSACTIONS',
+    //             payload: transactions
+    //         });
+    //     } catch (error) {
+    //         console.error("Error fetching last five transactions: ", error);
+    //     }
+    // };
     
-    //Fetch All
-    const fetchAllTransactions = async () => {
-        if (!currentUser) return;
+    // //Fetch All
+    // const fetchAllTransactions = async () => {
+    //     if (!currentUser) return;
 
-        try {
-            const q = query(
-                collection(firestore, 'users', currentUser.uid, 'transactions'),
-                orderBy('timestamp', 'desc')
-            );
+    //     try {
+    //         const q = query(
+    //             collection(firestore, 'users', currentUser.uid, 'transactions'),
+    //             orderBy('timestamp', 'desc')
+    //         );
 
-            const querySnapshot = await getDocs(q);
-            const transactions = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
+    //         const querySnapshot = await getDocs(q);
+    //         const transactions = querySnapshot.docs.map(doc => ({
+    //             id: doc.id,
+    //             ...doc.data()
+    //         }));
 
-            dispatch({
-                type: 'SET_ALL_TRANSACTIONS',
-                payload: transactions
-            });
+    //         dispatch({
+    //             type: 'SET_ALL_TRANSACTIONS',
+    //             payload: transactions
+    //         });
             
-        } catch (error) {
-            console.error("Error fetching all transactions: ", error);
-        }
-    };
+    //     } catch (error) {
+    //         console.error("Error fetching all transactions: ", error);
+    //     }
+    // };
 
     return (
         <GlobalContext.Provider value={{
@@ -236,8 +249,9 @@ export const GlobalProvider = ({ children }) => {
             addTransaction,
             deleteTransaction,
             saveChanges,
-            fetchAllTransactions,
-            fetchLastFiveTransactions
+            fetchUserInitialData,
+            // fetchAllTransactions,
+            // fetchLastFiveTransactions
         }}>
             {children}
         </GlobalContext.Provider>

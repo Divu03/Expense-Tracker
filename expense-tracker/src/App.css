@@ -46,10 +46,14 @@ h1, h2, h3, h4{
   color: #01295F;
 }
 
-h3 {
+h3.home-data {
   border-bottom: 1px solid #bbb;
   padding-bottom: 10px;
   margin: 40px 0 10px;
+}
+
+h3.user-data{
+  color: #e74c3c;
 }
 
 h4 {
