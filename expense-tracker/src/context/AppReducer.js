@@ -27,7 +27,6 @@ export default (state, action) => {
         //         expense: state.expense + action.payload
         //     };
         case 'SET_INITIAL_DATA':
-            console.log("Setting initial data:", action.payload);
             return {
                 ...state,
                 income: action.payload.income,

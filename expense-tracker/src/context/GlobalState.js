@@ -121,6 +121,8 @@ export const GlobalProvider = ({ children }) => {
 
     // fetch intial user data
     const fetchUserInitialData = async (currentUser) => {
+        if (!currentUser) return;
+
         try {
             const userRef = doc(firestore, 'users', currentUser.uid);
             const userSnap = await getDoc(userRef);

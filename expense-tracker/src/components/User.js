@@ -10,7 +10,8 @@ export const User = ({ onLogout, onViewHistory }) => {
 
     useEffect(() => {
         fetchUserInitialData(currentUser);
-    }, []);
+    }, [currentUser]);
+
 
 
     return (
