@@ -56,7 +56,7 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/user" element={<ProtectedRoute><User onLogout={handleLogout} onViewHistory={handleViewHistory} /></ProtectedRoute>} /> {/* Add User route */}
+          <Route path="/user" element={<ProtectedRoute><User onLogout={handleLogout}/></ProtectedRoute>} /> {/* Add User route */}
         </Routes>
       </div>
     </>

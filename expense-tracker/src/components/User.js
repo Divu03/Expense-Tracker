@@ -2,9 +2,11 @@
 import React,{ useContext,useEffect,useState } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 import { auth } from '../firebase/firebase';
+import { Link } from 'react-router-dom';
 
 
-export const User = ({ onLogout, onViewHistory }) => {
+
+export const User = ({onLogout}) => {
     const {name,email,mobile,fetchUserInitialData} = useContext(GlobalContext);
     const currentUser = auth.currentUser;
 
@@ -13,18 +15,30 @@ export const User = ({ onLogout, onViewHistory }) => {
     }, [currentUser]);
 
 
-
     return (
         <div>
             {mobile===0? 
                 (
                     <p>Loading user data...</p>
                 ) : (<>
-                    <h3 className='user-data'>Name : {name}</h3>
-                    <h3 className='user-data'>Email : {email}</h3>
-                    <h3 className='user-data'>Mobile : {mobile}</h3>
-                    <button className='btn' onClick={onViewHistory}>View History</button>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td className='user-data'>{name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td className='user-data'>{email}</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile</td>
+                            <td className='user-data'>{mobile}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <button className='btn' onClick={onLogout}>Logout</button>
+                    <Link to={"/"} className='nav-item'>Home</Link>
                 </>)
             }
         </div>
