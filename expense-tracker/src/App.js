@@ -7,7 +7,6 @@ import { TransactionList } from "./components/TransactionList";
 import { AddTransaction } from "./components/AddTransaction";
 import { Login } from "./components/Login";
 import { Signup } from "./components/Signup";
-import { History } from "./components/History";
 import { AuthProvider, useAuth } from "./context/AuthState";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { GlobalProvider } from "./context/GlobalState";
@@ -57,7 +56,6 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/history" element={<GlobalProvider><ProtectedRoute><History /></ProtectedRoute></GlobalProvider>} />
           <Route path="/user" element={<ProtectedRoute><User onLogout={handleLogout} onViewHistory={handleViewHistory} /></ProtectedRoute>} /> {/* Add User route */}
         </Routes>
       </div>
