@@ -56,6 +56,26 @@ h3.user-data{
   color: #e74c3c;
 }
 
+td.user-data{
+  color: #007bff;
+  font-size: larger;
+  padding-left: 20px;
+}
+
+td.user-key{
+  color: #01295F;
+  font-weight: bold;
+  font-size: larger;
+}
+
+table{
+  margin-bottom: 50px;
+}
+
+.btn.logout{
+  background-color: #c0392b;
+}
+
 h4 {
   margin: 0;
   text-transform: uppercase;
