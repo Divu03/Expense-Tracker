@@ -17,6 +17,7 @@ export const Transaction = ({ transaction }) => {
         className={transaction.amount < 0 ? 'minus' : 'plus'}
         onClick={handleListItemClick}
       >
+        {transaction.timestamp.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' })}{' '}
         {transaction.text}{' '}
         <span>{sign}₹ {Math.abs(transaction.amount)}</span>
         {showDelete && (
