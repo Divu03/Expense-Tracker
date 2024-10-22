@@ -237,6 +237,21 @@ input[type='number'] {
   transform: translate(-100%, -50%);
 }
 
+.edit-btn {
+  cursor: pointer;
+  background-color: #3066BE
+  ;
+  border: 0;
+  color: #fff;
+  font-size: 20px;
+  line-height: 20px;
+  padding: 2px 5px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(100%, -50%);
+}
+
 @media (max-width: 320px) {
   .container {
     width: 300px;
