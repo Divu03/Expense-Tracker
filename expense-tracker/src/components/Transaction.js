@@ -7,6 +7,18 @@ export const Transaction = ({ transaction }) => {
 
   const sign = transaction.amount < 0 ? '-' : '+';
 
+  const formattedDate = transaction.timestamp.seconds
+  ? new Date(transaction.timestamp.seconds * 1000).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+    }) // Firestore Timestamp
+  : transaction.timestamp instanceof Date
+  ? transaction.timestamp.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+    }) // JS Date object
+  : '';
+
   const handleListItemClick = () => {
     setShowActions(!showActions);
   };
@@ -17,7 +29,8 @@ export const Transaction = ({ transaction }) => {
         className={transaction.amount < 0 ? 'minus' : 'plus'}
         onClick={handleListItemClick}
       >
-        {transaction.timestamp.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' })}{' '}
+        {console.log(transaction)}
+        {formattedDate && <span>{formattedDate} </span>}
         {transaction.text}{' '}
         <span>{sign}₹ {Math.abs(transaction.amount)}</span>
         {showActions && (

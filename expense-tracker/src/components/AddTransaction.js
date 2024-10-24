@@ -13,7 +13,8 @@ export const AddTransaction = () => {
 
         const newTransaction = {
             text: text ? text : 'not written',
-            amount: sign === 0 ? +amount : -amount
+            amount: sign === 0 ? +amount : -amount,
+            timestamp: new Date()
         };
 
         addTransaction(newTransaction);
