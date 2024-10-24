@@ -41,7 +41,6 @@ export const GlobalProvider = ({ children }) => {
                 collection(firestore, 'users', currentUser.uid, 'transactions'), 
                 {
                     ...transaction,
-                    timestamp: new Date()
                 }
             );
             transaction.id = docRef.id;
@@ -49,7 +48,6 @@ export const GlobalProvider = ({ children }) => {
             const newTransaction = {
                 id:docRef.id,
                 ...transaction,
-                timestamp: new Date()
             };
 
             // Update local state
